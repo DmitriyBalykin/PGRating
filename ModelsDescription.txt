@@ -1,0 +1,51 @@
+Urls:
+custom ranking page: http://civlrankings.fai.org/?start_rank=1001&a=326&ladder_id=3
+competitions page: http://civlrankings.fai.org/?a=327&ladder_id=3&ranking_date=2017-09-01&
+single competition page: http://civlrankings.fai.org/?a=342&ladder_id=3&ranking_date=2017-09-01&competition_id=4541&
+
+PilotRankingMap
+
+Rank
+Name
+Gender
+Nation
+Points
+RankedCompetition
+Photo
+
+CompetitionsPageMap
+
+Periode
+Name
+Discipline
+Ta
+Pn
+Pq
+Td
+Tasks
+Pq_srp
+Pq_strp
+PilotsNumber
+PqRankingData
+TotalPilots
+TotalComps
+DaysSinceCompetition
+LastPilotScore
+WinnerPilotScore
+UpdateDate
+
+SingleCompetitionPageMap header
+
+same as CompetitionsPageMap
+
+SingleCompetitionPageMap table
+
+Rank
+PilotPointFactor
+Points
+TimeDevaluedPoints
+CompetitionsScore
+PointsPq
+PointsMaxPq
+PilotName
+CIVLID
