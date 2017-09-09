@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PGRating", "PGRating\PGRating.csproj", "{557584AF-5335-42F3-BB77-1EB672EDA1A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PGRating.Tests", "PGRating.Tests\PGRating.Tests.csproj", "{89FE5A26-A4B0-4914-AF49-62FB985D00D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PGRating.Crawler", "PGRating.Crawler\PGRating.Crawler.csproj", "{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{89FE5A26-A4B0-4914-AF49-62FB985D00D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89FE5A26-A4B0-4914-AF49-62FB985D00D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89FE5A26-A4B0-4914-AF49-62FB985D00D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50E18A81-AD88-4FEE-9F53-3E0FC832F889}
 	EndGlobalSection
 EndGlobal
