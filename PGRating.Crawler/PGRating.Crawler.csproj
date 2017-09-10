@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataCollection\CompetitionsDataReader.cs" />
+    <Compile Include="DataCollection\TableFactory.cs" />
     <Compile Include="Loader\FileLoader.cs" />
     <Compile Include="Loader\ILoader.cs" />
     <Compile Include="Loader\WebLoader.cs" />

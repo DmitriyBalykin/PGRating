@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 
 namespace PGRating.Models
 {
@@ -19,6 +15,8 @@ namespace PGRating.Models
         {
         }
 
-        public System.Data.Entity.DbSet<PGRating.Models.RatingTableViewModel> RatingTableViewModels { get; set; }
+        public DbSet<RatingTableViewModel> RatingTableViewModels { get; set; }
+
+        public DbSet<Participant> Participants { get; set; }
     }
 }

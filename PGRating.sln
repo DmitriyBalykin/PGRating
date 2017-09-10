@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{1396C9E0-1
 	ProjectSection(SolutionItems) = preProject
 		SampleData\AllCopmetitionsPageData.txt = SampleData\AllCopmetitionsPageData.txt
 		SampleData\CopmetitionPageData.txt = SampleData\CopmetitionPageData.txt
+		SampleData\UkrainianPilotsTable.txt = SampleData\UkrainianPilotsTable.txt
 	EndProjectSection
 EndProject
 Global

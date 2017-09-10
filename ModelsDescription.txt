@@ -7,10 +7,13 @@ PilotRankingMap
 
 Rank
 Name
+PilotId
 Gender
 Nation
+NationId
 Points
 RankedCompetition
+CompetitionId
 Photo
 
 CompetitionsPageMap

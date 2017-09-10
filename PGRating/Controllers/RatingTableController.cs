@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PGRating.Models;
+using PGRating.Utilities;
 
 namespace PGRating.Controllers
 {
@@ -18,7 +19,10 @@ namespace PGRating.Controllers
         // GET: RatingTable
         public async Task<ActionResult> Index()
         {
-            return View(await db.RatingTableViewModels.ToListAsync());
+            var dataCalculator = new RatingTableCalculator();
+            var participantsList = await dataCalculator.GetParticipantsAsync();
+
+            return View(participantsList);
         }
 
         // GET: RatingTable/Details/5

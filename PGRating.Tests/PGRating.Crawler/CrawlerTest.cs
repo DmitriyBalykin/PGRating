@@ -29,5 +29,16 @@ namespace PGRating.Tests.PGRating.Crawler
             Assert.IsTrue(resultTable != null);
             Assert.IsTrue(resultTable.Rows.Count > 0);
         }
+
+        [TestMethod]
+        public async Task Crawler_NationPilotsTable_Load_Test()
+        {
+            var crawler = new CompetitionsDataReader(new FileLoader());
+
+            var resultTable = await crawler.LoadNationPilotsTableAsync(@"H:\workspace\PGRating\SampleData\UkrainianPilotsTable.txt");
+
+            Assert.IsTrue(resultTable != null);
+            Assert.IsTrue(resultTable.Rows.Count > 0);
+        }
     }
 }
