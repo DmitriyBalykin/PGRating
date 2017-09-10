@@ -260,10 +260,12 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MeViewModels.cs" />
     <Compile Include="Models\Nation.cs" />
-    <Compile Include="Models\Participantcs.cs" />
+    <Compile Include="Models\NationTeamParticipant.cs" />
+    <Compile Include="Models\Participant.cs" />
     <Compile Include="Models\Pilot.cs" />
     <Compile Include="Models\RatingContext.cs" />
     <Compile Include="Models\RatingTableViewModel.cs" />
+    <Compile Include="Models\TablesCombinationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />

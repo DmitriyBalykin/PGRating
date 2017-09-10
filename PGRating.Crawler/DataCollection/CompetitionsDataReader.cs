@@ -65,7 +65,6 @@ namespace PGRating.Crawler.DataCollection
 
         private static void PopulateTableFromHtml(DataTable dataTable, HtmlNode htmlTable)
         {
-            var competitionIdRegex = new Regex(CompetitionIdKey);
 
             foreach (var row in htmlTable.SelectNodes("tr"))
             {
@@ -82,7 +81,7 @@ namespace PGRating.Crawler.DataCollection
 
                 foreach (var cell in cells)
                 {
-                    if (competitionIdRegex.Matches(cell.InnerHtml).Count == CountedCompetitionsPerPilots)
+                    if (cell.InnerHtml.Contains("Ranking points for the competition in this ranking"))
                     {
                         var competitionNameIdPairs = ExtractAllCompetitionIds(cell.InnerHtml);
 
@@ -115,11 +114,22 @@ namespace PGRating.Crawler.DataCollection
         {
             var competitionDataList = innerHtml.Split(new[] { "<br>" }, 4, StringSplitOptions.RemoveEmptyEntries);
 
+            var listHasManyItems = competitionDataList.Length > 1;
+
             foreach (var competitionData in competitionDataList)
             {
                 var parts = competitionData.Split(' ');
                 var rating = parts[1];
-                var competitionId = ExctractId(parts[3]);
+                string competitionId;
+
+                if (listHasManyItems)
+                {
+                    competitionId = ExctractId(parts[3], CompetitionIdKey);
+                }
+                else
+                {
+                    competitionId = ExctractId(innerHtml, CompetitionIdKey);
+                }
 
                 yield return new Tuple<string, string>(rating, competitionId);
             }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PGRating.Models.RatingTableViewModel>
+﻿@model PGRating.Models.TablesCombinationModel
 
 @{
     ViewBag.Title = "Index";
@@ -6,34 +6,127 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            FAI Ranking
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Data)
+            Equivalent Ranking
         </th>
-        <th></th>
     </tr>
-
-@foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Date)
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().Rank)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().Rating)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().CR1)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().CQ1)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().CR2)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().CQ2)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().CR3)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().CQ3)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().CR4)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().CQ4)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DirectList.First().EquivalentRating)
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.DirectList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rank)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rating)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CR1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CQ1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CR2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CQ2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CR3)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CQ3)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CR4)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CQ4)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EquivalentRating)
+                        </td>
+                    </tr>
+                }
+
+            </table>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Data)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EquivalentList.First().Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EquivalentList.First().EquivalentRating)
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.EquivalentList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EquivalentRating)
+                        </td>
+                    </tr>
+                }
+
+            </table>
         </td>
     </tr>
-}
+</div>
 
-</table>
+
