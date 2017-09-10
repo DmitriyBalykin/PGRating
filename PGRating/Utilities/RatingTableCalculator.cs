@@ -15,16 +15,19 @@ namespace PGRating.Utilities
     {
         public async Task<TablesCombinationModel> GetParticipantsAsync()
         {
-            var loader = new FileLoader();
+            var loader = new WebLoader();
 
-            var crawler = new CompetitionsDataReader(new FileLoader());
+            var crawler = new CompetitionsDataReader(loader);
 
             var executionRootPath = Path.GetFullPath(HostingEnvironment.ApplicationPhysicalPath);
 
             var projectRootPath = Directory.GetParent(Directory.GetParent(executionRootPath).FullName).FullName;
 
-            var competitionsDataPath = $"{projectRootPath}\\SampleData\\AllCopmetitionsPageData.txt";
-            var participantsDataPath = $"{projectRootPath}\\SampleData\\UkrainianPilotsTable.txt";
+            //var competitionsDataPath = $"{projectRootPath}\\SampleData\\AllCopmetitionsPageData.txt";
+            //var participantsDataPath = $"{projectRootPath}\\SampleData\\UkrainianPilotsTable.txt";
+
+            var competitionsDataPath = $"http://civlrankings.fai.org/?a=327&ladder_id=3&ranking_date=2017-09-01&";
+            var participantsDataPath = $"http://civlrankings.fai.org/?a=326&ladder_id=3&ranking_date=2017-09-01&nation_id=230&";
 
             var competitionsTable = await crawler.LoadUsedCompetitionsTableAsync(competitionsDataPath);
             var participantsTable = await crawler.LoadNationPilotsTableAsync(participantsDataPath);
