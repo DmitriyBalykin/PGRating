@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 using System.Web.Hosting;
 using System;
 using System.Linq;
+using System.Threading;
 
 namespace PGRating.Utilities
 {
     public class RatingTableCalculator
     {
+        private static readonly char decimalDelimiter = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+
         public async Task<TablesCombinationModel> GetParticipantsAsync()
         {
             var loader = new WebLoader();
@@ -189,7 +192,7 @@ namespace PGRating.Utilities
 
             try
             {
-                return double.Parse(value.ToString().Replace('.', ','));
+                return double.Parse(value.ToString().Replace('.', decimalDelimiter));
             }
             catch (FormatException ex)
             {
