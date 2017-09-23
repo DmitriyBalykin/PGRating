@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PGRating.Crawler.DataCollection
 {
-    public class CompetitionsDataReader
+    public class NationPilotsDataReader
     {
         private const string BaseUsl = @"http://civlrankings.fai.org/?a=326&ladder_id=3";
         private const string RankingDatePart = "&ranking_date=2017-09-01";
@@ -32,22 +32,9 @@ namespace PGRating.Crawler.DataCollection
 
         private ILoader loader;
 
-        public CompetitionsDataReader(ILoader loader)
+        public NationPilotsDataReader(ILoader loader)
         {
             this.loader = loader;
-        }
-
-        public async Task<DataTable> LoadUsedCompetitionsTableAsync(string url = null)
-        {
-            var dataTable = new DataTable("UsedCompetitions");
-
-            dataTable.Columns.AddRange(TableFactory.GetCompetitionColumns());
-
-            var htmlTable = await this.LoadUsedCompetitionsPageAsync(url);
-
-            PopulateTableFromHtml(dataTable, htmlTable);
-
-            return dataTable;
         }
 
         public async Task<DataTable> LoadNationPilotsTableAsync(string url = null)

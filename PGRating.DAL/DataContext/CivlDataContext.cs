@@ -1,8 +1,9 @@
-﻿using System.Data.Entity;
+﻿using PGRating.Domain;
+using System.Data.Entity;
 
-namespace PGRating.Models
+namespace PGRating.DAL.DataContext
 {
-    public class RatingContext : DbContext
+    internal class CivlDataContext : DbContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -11,12 +12,16 @@ namespace PGRating.Models
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
     
-        public RatingContext() : base("name=DefaultConnection")
+        public CivlDataContext() : base("name=DefaultConnection")
         {
         }
 
-        public DbSet<RatingTableViewModel> RatingTableViewModels { get; set; }
+        public DbSet<Competition> Competitions { get; set; }
+
+        public DbSet<Pilot> Pilots { get; set; }
 
         public DbSet<Participant> Participants { get; set; }
+
+        public DbSet<NationTeamParticipant> NationParticipants { get; set; }
     }
 }

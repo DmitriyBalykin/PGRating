@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace PGRating.Models
+namespace PGRating.Domain
 {
     public class Competition
     {
         [Key]
+        [Required]
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public double Quality { get; set; }
+        public double QualityCoefficient { get; set; }
 
-        public List<Pilot> Participants { get; set; }
+        public double TimeCoefficient { get; set; }
+
+        public List<Participant> Participants { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using PGRating.Domain;
+using System.Collections.Generic;
+
 namespace PGRating.Models
 {
     public class TablesCombinationModel

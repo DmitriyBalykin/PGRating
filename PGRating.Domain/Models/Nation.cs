@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PGRating.Models
+namespace PGRating.Domain
 {
-    public class Pilot
+    public class Nation
     {
         [Key]
         public int Id { get; set; }
 
-        public Nation Nation { get; set; }
+        public string Name { get; set; }
     }
 }

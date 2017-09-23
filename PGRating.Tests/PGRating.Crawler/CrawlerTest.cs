@@ -12,7 +12,7 @@ namespace PGRating.Tests.PGRating.Crawler
         [TestMethod]
         public async Task Crawler_SimpleData_Load_Test()
         {
-            var crawler = new CompetitionsDataReader(new FileLoader());
+            var crawler = new ActualCompetitionsDataReader(new FileLoader());
 
             var result = await crawler.LoadUsedCompetitionsPageAsync(@"H:\workspace\PGRating\SampleData\AllCopmetitionsPageData.txt");
 
@@ -22,7 +22,7 @@ namespace PGRating.Tests.PGRating.Crawler
         [TestMethod]
         public async Task Crawler_CompetitionsTable_Load_Test()
         {
-            var crawler = new CompetitionsDataReader(new FileLoader());
+            var crawler = new ActualCompetitionsDataReader(new FileLoader());
 
             var resultTable = await crawler.LoadUsedCompetitionsTableAsync(@"H:\workspace\PGRating\SampleData\AllCopmetitionsPageData.txt");
 
@@ -33,7 +33,7 @@ namespace PGRating.Tests.PGRating.Crawler
         [TestMethod]
         public async Task Crawler_NationPilotsTable_Load_Test()
         {
-            var crawler = new CompetitionsDataReader(new FileLoader());
+            var crawler = new NationPilotsDataReader(new FileLoader());
 
             var resultTable = await crawler.LoadNationPilotsTableAsync(@"H:\workspace\PGRating\SampleData\UkrainianPilotsTable.txt");
 

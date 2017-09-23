@@ -1,14 +1,13 @@
 ﻿using PGRating.Crawler.DataCollection;
 using PGRating.Crawler.Loader;
-using PGRating.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System;
-using System.Linq;
 using System.Threading;
+using PGRating.Domain;
 
 namespace PGRating.Utilities
 {
@@ -16,11 +15,12 @@ namespace PGRating.Utilities
     {
         private static readonly char decimalDelimiter = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
 
-        public async Task<TablesCombinationModel> GetParticipantsAsync()
+
+        public async Task<Dictionary<int, Competition>> GetCompetitionsAsync()
         {
             var loader = new WebLoader();
 
-            var crawler = new CompetitionsDataReader(loader);
+            var actualCompetitionsCrawler = new ActualCompetitionsDataReader(loader);
 
             var executionRootPath = Path.GetFullPath(HostingEnvironment.ApplicationPhysicalPath);
 
@@ -30,26 +30,26 @@ namespace PGRating.Utilities
             //var participantsDataPath = $"{projectRootPath}\\SampleData\\UkrainianPilotsTable.txt";
 
             var competitionsDataPath = $"http://civlrankings.fai.org/?a=327&ladder_id=3&ranking_date=2017-09-01&";
-            var participantsDataPath = $"http://civlrankings.fai.org/?a=326&ladder_id=3&ranking_date=2017-09-01&nation_id=230&";
+            var competitionsTable = await actualCompetitionsCrawler.LoadUsedCompetitionsTableAsync(competitionsDataPath);
 
-            var competitionsTable = await crawler.LoadUsedCompetitionsTableAsync(competitionsDataPath);
-            var participantsTable = await crawler.LoadNationPilotsTableAsync(participantsDataPath);
 
             var competitions = new Dictionary<int, Competition>();
-            
+
             foreach (DataRow competitionRow in competitionsTable.Rows)
             {
-                var competitionId = GetCellValue(competitionRow,"CompetitionId");
+                var competitionId = GetCellValue(competitionRow, "CompetitionId");
                 var pq = GetCellValue(competitionRow, "Pq");
+                var td = GetCellValue(competitionRow, "Td");
                 var name = GetCellValue(competitionRow, "Name");
                 int parsedId = GeInt(competitionId);
-                
+
                 if (competitions.ContainsKey(parsedId))
                 {
                     continue;
                 }
 
                 var parsedPq = GetDouble(pq);
+                var parsedTd = GetDouble(td);
 
                 competitions.Add(
                     parsedId,
@@ -57,11 +57,25 @@ namespace PGRating.Utilities
                     {
                         Id = parsedId,
                         Name = name.ToString(),
-                        Quality = parsedPq
+                        QualityCoefficient = parsedPq,
+                        TimeCoefficient = parsedTd
                     });
             }
 
+            return competitions;
+        }
+
+        public async Task<List<NationTeamParticipant>> GetParticipantsAsync()
+        {
+            var loader = new WebLoader();
+
+            var nationPilotsCrawler = new NationPilotsDataReader(loader);
+            var participantsDataPath = $"http://civlrankings.fai.org/?a=326&ladder_id=3&ranking_date=2017-09-01&nation_id=230&";
+            var participantsTable = await nationPilotsCrawler.LoadNationPilotsTableAsync(participantsDataPath);
+
             var participants = new List<NationTeamParticipant>();
+
+            var competitions = await this.GetCompetitionsAsync();
 
             foreach (DataRow participantRow in participantsTable.Rows)
             {
@@ -69,7 +83,7 @@ namespace PGRating.Utilities
                 rank = rank.Substring(0, rank.IndexOf('w'));
 
                 var name = GetCellValue(participantRow, "Name").ToString();
-                name = name.Substring(0, name.IndexOf("CIVL"));
+                name = name.Substring(0, name.IndexOf("CIVL", StringComparison.InvariantCultureIgnoreCase));
 
                 var rating = GetCellValue(participantRow, "Points");
 
@@ -105,7 +119,7 @@ namespace PGRating.Utilities
                     new NationTeamParticipant
                     {
                         Rank = rankParsed,
-                        Name = name.ToString(),
+                        Name = name,
                         Rating = ratingParsed,
                         CQ1 = cq1,
                         CQ2 = cq2,
@@ -118,24 +132,14 @@ namespace PGRating.Utilities
                     });
             }
 
-            CalculateQuivalentRankings(participants);
-
-            var equivalentRatingOrderList = participants.OrderByDescending(part => part.EquivalentRating).ToList();
-
-            var model = new TablesCombinationModel
-            {
-                DirectList = participants,
-                EquivalentList = equivalentRatingOrderList
-            };
-
-            return model;
+            return participants;
         }
 
         private static double GetCq(Dictionary<int, Competition> competitions, int key)
         {
             if (competitions.ContainsKey(key))
             {
-                return competitions[key].Quality;
+                return competitions[key].QualityCoefficient;
             }
 
             return 0;
@@ -198,14 +202,6 @@ namespace PGRating.Utilities
             {
 
                 throw;
-            }
-        }
-
-        private void CalculateQuivalentRankings(List<NationTeamParticipant> participants)
-        {
-            foreach (var part in participants)
-            {
-                part.EquivalentRating = part.CR1 * part.CQ1 + part.CR2 * part.CQ2 + part.CR3 * part.CQ3 + part.CR4 * part.CQ4;
             }
         }
     }

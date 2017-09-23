@@ -1,9 +1,13 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace PGRating.Models
+namespace PGRating.Domain
 {
     public class NationTeamParticipant
     {
+        [Key]
+        public int Id { get; set; }
+
         [DisplayName("Rank")]
         public int Rank { get; set; }
 
