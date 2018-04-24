@@ -1,24 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PGRating", "PGRating\PGRating.csproj", "{557584AF-5335-42F3-BB77-1EB672EDA1A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PGRating.Tests", "PGRating.Tests\PGRating.Tests.csproj", "{89FE5A26-A4B0-4914-AF49-62FB985D00D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PGRating.Crawler", "PGRating.Crawler\PGRating.Crawler.csproj", "{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{1396C9E0-1230-4E9B-97DC-8266C1A5580E}"
 	ProjectSection(SolutionItems) = preProject
-		SampleData\AllCopmetitionsPageData.txt = SampleData\AllCopmetitionsPageData.txt
-		SampleData\CopmetitionPageData.txt = SampleData\CopmetitionPageData.txt
+		SampleData\AllCompetitionsPageData.txt = SampleData\AllCompetitionsPageData.txt
+		SampleData\AllNationsPageData.txt = SampleData\AllNationsPageData.txt
+		SampleData\CompetitionPageData.txt = SampleData\CompetitionPageData.txt
 		SampleData\UkrainianPilotsTable.txt = SampleData\UkrainianPilotsTable.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PGRating.DAL", "PGRating.DAL\PGRating.DAL.csproj", "{A609ABB3-3FC0-4141-AB61-0915EC881ACD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PGRating.Domain", "PGRating.Domain\PGRating.Domain.csproj", "{887E4521-5033-4E44-A68D-D23908C9FC6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PGRating.Scrapper", "PGRating.Scrapper\PGRating.Scrapper.csproj", "{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,10 +35,6 @@ Global
 		{89FE5A26-A4B0-4914-AF49-62FB985D00D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89FE5A26-A4B0-4914-AF49-62FB985D00D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89FE5A26-A4B0-4914-AF49-62FB985D00D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A609ABB3-3FC0-4141-AB61-0915EC881ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A609ABB3-3FC0-4141-AB61-0915EC881ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A609ABB3-3FC0-4141-AB61-0915EC881ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -46,6 +43,10 @@ Global
 		{887E4521-5033-4E44-A68D-D23908C9FC6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{887E4521-5033-4E44-A68D-D23908C9FC6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{887E4521-5033-4E44-A68D-D23908C9FC6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,7 +10,7 @@ namespace PGRating.Utils
     {
         public static TablesCombinationModel GetRatingCombinationTableAsync()
         {
-            var repository = new CivlDataRepository();
+            var repository = new NationalParticipantRepository();
 
             var participants = repository.GetNationalParticipants();
 

@@ -70,8 +70,8 @@ namespace PGRating.Utilities
             var loader = new WebLoader();
 
             var nationPilotsCrawler = new NationPilotsDataReader(loader);
-            var participantsDataPath = $"http://civlrankings.fai.org/?a=326&ladder_id=3&ranking_date=2017-09-01&nation_id=230&";
-            var participantsTable = await nationPilotsCrawler.LoadNationPilotsTableAsync(participantsDataPath);
+            var participantsDataPath = $"http://civlrankings.fai.org/?a=326&ladder_id=3&ranking_date=2017-09-01";
+            var participantsTable = await nationPilotsCrawler.LoadNationPilotsTableAsync(230, participantsDataPath);
 
             var participants = new List<NationTeamParticipant>();
 

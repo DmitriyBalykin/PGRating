@@ -53,5 +53,15 @@ namespace PGRating.Crawler.DataCollection
                 new DataColumn("Photo",typeof(string))
             };
         }
+
+        internal static DataColumn[] GetNationsColumns()
+        {
+            return new[]
+            {
+                new DataColumn("Rank",typeof(string)),
+                new DataColumn("Nation",typeof(string)),
+                new DataColumn("NationId",typeof(string))
+            };
+        }
     }
 }

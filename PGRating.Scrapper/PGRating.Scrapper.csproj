@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.8.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.8.0\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.5.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.5.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -46,7 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Crawler\DataCrawler.cs" />
+    <Compile Include="DataCollection\NationsDataReader.cs" />
+    <Compile Include="Scrapper\DataScrapper.cs" />
     <Compile Include="DataCollection\NationPilotsDataReader.cs" />
     <Compile Include="DataCollection\ActualCompetitionsDataReader.cs" />
     <Compile Include="DataCollection\TableFactory.cs" />
@@ -54,6 +58,8 @@
     <Compile Include="Loader\ILoader.cs" />
     <Compile Include="Loader\WebLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scrapper\RegularTasks.cs" />
+    <Compile Include="Utilities\ParseUtilities.cs" />
     <Compile Include="Utilities\RatingTableCalculator.cs" />
   </ItemGroup>
   <ItemGroup>

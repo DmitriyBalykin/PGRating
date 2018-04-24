@@ -1,22 +1,34 @@
-﻿using PGRating.DAL.DataContext;
-using PGRating.DAL.Repository;
+﻿using PGRating.DAL.Repository;
 using PGRating.Domain;
 using PGRating.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Hosting;
+using System.Threading;
+using System;
+using PGRating.Crawler.Scrapper;
 
-namespace PGRating.Crawler.Crawler
+namespace PGRating.Scrapper.Scrapper
 {
-    public class DataCrawler
+    public class DataScrapper
     {
+        //Run once in a week
+        private static readonly TimeSpan RunningInterval = TimeSpan.FromDays(7);
+
         public static void Start()
         {
-            Task.Run(async () => {
-                var competitions = await GetActualCompetitions();
-                await SaveActualCompetitions(competitions).ConfigureAwait(false);
-                });
-            
+            HostingEnvironment.QueueBackgroundWorkItem(BackgroundWorker);            
+        }
+
+        private static async Task BackgroundWorker(CancellationToken obj)
+        {
+            //var competitions = await GetActualCompetitions();
+            //await SaveActualCompetitions(competitions);
+
+            await RegularTasks.Run();
+
+            await Task.Delay(RunningInterval);
         }
 
         private static async Task<List<Competition>> GetActualCompetitions()
@@ -31,7 +43,7 @@ namespace PGRating.Crawler.Crawler
         {
             try
             {
-                var repository = new CivlDataRepository();
+                var repository = new CompetitionsRepository();
 
                 await repository.SaveCompetitions(competitions);
             }

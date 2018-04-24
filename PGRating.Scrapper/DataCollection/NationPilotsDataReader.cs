@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using PGRating.Crawler.Loader;
+using PGRating.Crawler.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,14 +12,13 @@ namespace PGRating.Crawler.DataCollection
     public class NationPilotsDataReader
     {
         private const string BaseUsl = @"http://civlrankings.fai.org/?a=326&ladder_id=3";
-        private const string RankingDatePart = "&ranking_date=2017-09-01";
-        private const string NationIdPart = "&nation_id=230";
-        private const string CompetitionsListPage = @"http://civlrankings.fai.org/?a=327&ladder_id=3&ranking_date=";
-        private const string NationPilotsListPage = @"http://civlrankings.fai.org/?a=326&ladder_id=3&ranking_date=";
+        private const string CompetitionsListPage = @"http://civlrankings.fai.org/?a=327&ladder_id=3";
+        private const string NationPilotsListPage = @"http://civlrankings.fai.org/?a=326&ladder_id=3";
 
         private const string CompetitionIdKey = "competition_id=";
         private const string NationIdKey = "nation_id=";
         private const string PersonIdKey = "person_id=";
+        private const string DateKey = "ranking_date=";
 
         private const int CountedCompetitionsPerPilots = 4;
 
@@ -37,13 +37,13 @@ namespace PGRating.Crawler.DataCollection
             this.loader = loader;
         }
 
-        public async Task<DataTable> LoadNationPilotsTableAsync(string url = null)
+        public async Task<DataTable> LoadNationPilotsTableAsync(int nationId = 0, string url = null)
         {
             var dataTable = new DataTable("NationPilots");
 
             dataTable.Columns.AddRange(TableFactory.GetNationPilotsColumns());
 
-            var htmlTable = await this.LoadNationPilotsPageAsync(url);
+            var htmlTable = await this.LoadNationPilotsPageAsync(nationId, url);
 
             PopulateTableFromHtml(dataTable, htmlTable);
 
@@ -141,29 +141,7 @@ namespace PGRating.Crawler.DataCollection
                 key = SelectIdKey(value);
             }
 
-            if (key == null)
-            {
-                return null;
-            }
-
-            var keyStringIndex = value.IndexOf(key);
-
-            if (keyStringIndex > -1)
-            {
-                var idStringStart = keyStringIndex + key.Length;
-                value = value.Substring(idStringStart);
-
-                var regex = new Regex("^[0-9]+");
-
-                var match = regex.Match(value);
-
-                if (match.Success)
-                {
-                    return match.Groups[0].Value;
-                }
-            }
-
-            return null;
+            return ParseUtilities.GetValueFromUrl(value, key);
         }
 
         private static string SelectIdKey(string value)
@@ -191,19 +169,20 @@ namespace PGRating.Crawler.DataCollection
         {
             if (url == null)
             {
-                var scoringDate = DateTime.Now.ToString("yyyy-MM-01");
-                url = CompetitionsListPage + scoringDate;
+                url = $"{CompetitionsListPage}" +
+                    $"&{DateKey}{DateTime.Now.ToString("yyyy-MM-01")}";
             }
 
             return await this.LoadPageTableNodeAsync(url);
         }
 
-        private async Task<HtmlNode> LoadNationPilotsPageAsync(string url = null)
+        private async Task<HtmlNode> LoadNationPilotsPageAsync(int nationId=0, string url = null)
         {
             if (url == null)
             {
-                var scoringDate = DateTime.Now.ToString("yyyy-MM-01");
-                url = NationPilotsListPage + scoringDate + NationIdPart;
+                url = $"{NationPilotsListPage}" +
+                    $"&{DateKey}{DateTime.Now.ToString("yyyy-MM-01")}" +
+                    $"&{NationIdKey}{nationId}";
             }
 
             return await this.LoadPageTableNodeAsync(url);

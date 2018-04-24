@@ -22,6 +22,8 @@ namespace PGRating.DAL.DataContext
 
         public DbSet<Participant> Participants { get; set; }
 
+        public DbSet<Nation> Nations { get; set; }
+
         public DbSet<NationTeamParticipant> NationParticipants { get; set; }
     }
 }

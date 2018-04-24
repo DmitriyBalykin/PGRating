@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\InvalidTableException.cs" />
     <Compile Include="Models\Competition.cs" />
     <Compile Include="Models\Nation.cs" />
     <Compile Include="Models\NationTeamParticipant.cs" />
