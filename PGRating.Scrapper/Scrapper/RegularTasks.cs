@@ -11,7 +11,7 @@ namespace PGRating.Crawler.Scrapper
 {
     public class RegularTasks
     {
-        private static readonly TimeSpan ExecutionInterval = TimeSpan.FromMinutes(5);
+        private static readonly TimeSpan ExecutionInterval = TimeSpan.FromSeconds(5);
         private ILoader loader;
 
         public RegularTasks(ILoader loader)
@@ -30,8 +30,8 @@ namespace PGRating.Crawler.Scrapper
             var dataReader = new NationsDataReader(this.loader);
             var nationsList = await dataReader.LoadNationsAsync();
             var repository = new NationsRepository();
-            var existingNations = await repository.GetNationsAsync();
-            var changedNations = nationsList.Except(existingNations).ToList();
+            var existingNations = (await repository.GetNationsAsync()).OrderBy(nation => nation.Id);
+            var changedNations = nationsList.OrderBy(nation => nation.Id).Except(existingNations).ToList();
 
             if(changedNations.Count > 0)
             {
@@ -45,16 +45,16 @@ namespace PGRating.Crawler.Scrapper
             // Load all pilots list 
             var dataReader = new NationPilotsDataReader(this.loader);
 
-            foreach(var nation in nations)
+            using (var repository = new PilotsRepository())
             {
-                var participantsTable = await dataReader.LoadNationPilotsTableAsync(nation.Id);
-                // Convert to pilot objects list
-                var participantsList = new List<NationTeamParticipant>();
-                // Save into repository
-                var repository = new NationalParticipantRepository();
-                await repository.SaveNationalParticipants(participantsList);
+                foreach (var nation in nations)
+                {
+                    var pilots = await dataReader.LoadNationPilotsAsync(nation.Id);
+                    // Save into repository
+                    await repository.SavePilotsAsync(pilots);
 
-                await Task.Delay(ExecutionInterval);
+                    await Task.Delay(ExecutionInterval);
+                }
             }
         }
     }

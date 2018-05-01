@@ -5,6 +5,7 @@ using PGRating.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -45,6 +46,8 @@ namespace PGRating.Crawler.DataCollection
 
             var list = new List<Pilot>();
 
+
+
             foreach (DataRow row in table.Rows)
             {
                 list.Add(new Pilot
@@ -55,7 +58,9 @@ namespace PGRating.Crawler.DataCollection
                     {
                         Name = row[5].ToString(),
                         Id = int.Parse(row[6].ToString()),
-                    }
+                    },
+                    Rating = decimal.Parse(row[8].ToString(), CultureInfo.InvariantCulture),
+                    RatingDate = DateTime.ParseExact(row[7].ToString(), "yyyy-MM-dd", CultureInfo.InvariantCulture)
                 });
             }
 
@@ -116,11 +121,24 @@ namespace PGRating.Crawler.DataCollection
 
                         index = ExtractIdIfExistsAndInsertNext(dataRow, index, cell.InnerHtml);
                         index = ExtractNameIfExistsAndInsertNext(dataRow, index, text);
+                        index = ExtractDateIfExistsAndInsertNext(dataRow, index, cell.InnerHtml);
                     }
                 }
 
                 dataTable.Rows.Add(dataRow);
             }
+        }
+
+        private static int ExtractDateIfExistsAndInsertNext(DataRow dataRow, int index, string text)
+        {
+            var dateString = ParseUtilities.GetValueFromUrl(text, DateKey);
+
+            if (!string.IsNullOrEmpty(dateString))
+            {
+                index = InsertNext(dataRow, index, dateString);
+            }
+
+            return index;
         }
 
         private static int ExtractNameIfExistsAndInsertNext(DataRow dataRow, int index, string text)

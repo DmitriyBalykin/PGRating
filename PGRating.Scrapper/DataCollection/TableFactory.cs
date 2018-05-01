@@ -37,6 +37,8 @@ namespace PGRating.Crawler.DataCollection
             {
                 new DataColumn("Rank",typeof(string)),
                 new DataColumn("Name",typeof(string)),
+                new DataColumn("Rating",typeof(string)),
+                new DataColumn("RatingDate",typeof(string)),
                 new DataColumn("PilotId",typeof(string)),
                 new DataColumn("Gender",typeof(string)),
                 new DataColumn("Nation",typeof(string)),

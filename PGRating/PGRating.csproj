@@ -253,6 +253,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805011148491_CivlDataContext.cs" />
+    <Compile Include="Migrations\201805011148491_CivlDataContext.Designer.cs">
+      <DependentUpon>201805011148491_CivlDataContext.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -389,6 +393,11 @@
       <Project>{ED6BDF83-3C4B-4D31-B3CE-009A63F0326E}</Project>
       <Name>PGRating.Scrapper</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201805011148491_CivlDataContext.resx">
+      <DependentUpon>201805011148491_CivlDataContext.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

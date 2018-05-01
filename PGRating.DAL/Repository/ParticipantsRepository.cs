@@ -2,30 +2,41 @@
 using PGRating.Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace PGRating.DAL.Repository
 {
-    public class ParticipantsRepository
+    public class ParticipantsRepository : IDisposable
     {
-        public List<Participant> GetParticipants()
+        private bool isDisposing;
+        private CivlDataContext datacontext;
+        public ParticipantsRepository()
         {
-            using (var db = new CivlDataContext())
-            {
-                return db.Participants.ToList();
-            }
+            this.datacontext = new CivlDataContext();
+        }
+
+        public Task<List<Participant>> GetParticipantsAsync()
+        {
+            return this.datacontext.Participants.Include(p => p.Pilot).ToListAsync();
         }
 
         public async Task SaveParticipants(List<Participant> participants)
         {
-            using (var db = new CivlDataContext())
-            {
-                db.Participants.AddRange(participants);
+            this.datacontext.Participants.AddRange(participants);
 
-                await db.SaveChangesAsync();
+            await this.datacontext.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            if (this.isDisposing)
+            {
+                return;
             }
+
+            this.isDisposing = true;
+            this.datacontext.Dispose();
         }
     }
 }
