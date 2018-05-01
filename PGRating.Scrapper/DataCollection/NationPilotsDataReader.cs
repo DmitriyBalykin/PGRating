@@ -1,9 +1,11 @@
 ﻿using HtmlAgilityPack;
 using PGRating.Crawler.Loader;
 using PGRating.Crawler.Utilities;
+using PGRating.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -16,9 +18,9 @@ namespace PGRating.Crawler.DataCollection
         private const string NationPilotsListPage = @"http://civlrankings.fai.org/?a=326&ladder_id=3";
 
         private const string CompetitionIdKey = "competition_id=";
-        private const string NationIdKey = "nation_id=";
-        private const string PersonIdKey = "person_id=";
-        private const string DateKey = "ranking_date=";
+        private const string NationIdKey = "nation_id";
+        private const string PersonIdKey = "person_id";
+        private const string DateKey = "ranking_date";
 
         private const int CountedCompetitionsPerPilots = 4;
 
@@ -35,6 +37,29 @@ namespace PGRating.Crawler.DataCollection
         public NationPilotsDataReader(ILoader loader)
         {
             this.loader = loader;
+        }
+
+        public async Task<IList<Pilot>> LoadNationPilotsAsync(int nationId = 0, string url = null)
+        {
+            var table = await this.LoadNationPilotsTableAsync(nationId, url);
+
+            var list = new List<Pilot>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                list.Add(new Pilot
+                {
+                    Id = int.Parse(row[2].ToString()),
+                    Name = row[3].ToString(),
+                    Nation = new Nation
+                    {
+                        Name = row[5].ToString(),
+                        Id = int.Parse(row[6].ToString()),
+                    }
+                });
+            }
+
+            return list;
         }
 
         public async Task<DataTable> LoadNationPilotsTableAsync(int nationId = 0, string url = null)
@@ -90,11 +115,25 @@ namespace PGRating.Crawler.DataCollection
                         index = InsertNext(dataRow, index, text);
 
                         index = ExtractIdIfExistsAndInsertNext(dataRow, index, cell.InnerHtml);
+                        index = ExtractNameIfExistsAndInsertNext(dataRow, index, text);
                     }
                 }
 
                 dataTable.Rows.Add(dataRow);
             }
+        }
+
+        private static int ExtractNameIfExistsAndInsertNext(DataRow dataRow, int index, string text)
+        {
+            var regex = new Regex("^([a-zA-Z ]+)CIVL ID: ([0-9]+)");
+            var name = ParseUtilities.GetMatches(text, regex)?.FirstOrDefault();
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                index = InsertNext(dataRow, index, name);
+            }
+
+            return index;
         }
 
         private static IEnumerable<Tuple<string,string>> ExtractAllCompetitionIds(string innerHtml)
@@ -159,6 +198,7 @@ namespace PGRating.Crawler.DataCollection
 
         private static int InsertNext(DataRow dataRow, int index, string value)
         {
+            value = ParseUtilities.Trim(value);
             dataRow.SetField<string>(index, value);
             index++;
 
@@ -170,7 +210,7 @@ namespace PGRating.Crawler.DataCollection
             if (url == null)
             {
                 url = $"{CompetitionsListPage}" +
-                    $"&{DateKey}{DateTime.Now.ToString("yyyy-MM-01")}";
+                    $"&{DateKey}={DateTime.Now.ToString("yyyy-MM-01")}";
             }
 
             return await this.LoadPageTableNodeAsync(url);
@@ -181,8 +221,8 @@ namespace PGRating.Crawler.DataCollection
             if (url == null)
             {
                 url = $"{NationPilotsListPage}" +
-                    $"&{DateKey}{DateTime.Now.ToString("yyyy-MM-01")}" +
-                    $"&{NationIdKey}{nationId}";
+                    $"&{DateKey}={DateTime.Now.ToString("yyyy-MM-01")}" +
+                    $"&{NationIdKey}={nationId}";
             }
 
             return await this.LoadPageTableNodeAsync(url);

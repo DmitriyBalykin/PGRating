@@ -8,6 +8,8 @@ using System.Web.Hosting;
 using System.Threading;
 using System;
 using PGRating.Crawler.Scrapper;
+using Autofac;
+using PGRating.Crawler.Loader;
 
 namespace PGRating.Scrapper.Scrapper
 {
@@ -15,9 +17,12 @@ namespace PGRating.Scrapper.Scrapper
     {
         //Run once in a week
         private static readonly TimeSpan RunningInterval = TimeSpan.FromDays(7);
+        private static IContainer Container;
 
-        public static void Start()
+        public static void Start(IContainer componentsContainer)
         {
+            Container = componentsContainer;
+
             HostingEnvironment.QueueBackgroundWorkItem(BackgroundWorker);            
         }
 
@@ -26,7 +31,8 @@ namespace PGRating.Scrapper.Scrapper
             //var competitions = await GetActualCompetitions();
             //await SaveActualCompetitions(competitions);
 
-            await RegularTasks.Run();
+            var regularTasks = new RegularTasks(Container.Resolve<ILoader>());
+            await regularTasks.Run();
 
             await Task.Delay(RunningInterval);
         }

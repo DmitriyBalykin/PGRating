@@ -2,30 +2,50 @@
 using PGRating.Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace PGRating.DAL.Repository
 {
-    public class PilotsRepository
+    public class PilotsRepository: IDisposable
     {
-        public List<Pilot> GetPilots()
+        private bool isDisposing = false;
+        private CivlDataContext datacontext;
+        public PilotsRepository()
         {
-            using (var db = new CivlDataContext())
-            {
-                return db.Pilots.ToList();
-            }
+            this.datacontext = new CivlDataContext();
         }
 
-        public async Task SavePilots(List<Pilot> pilots)
+        public Task<List<Pilot>> GetPilotsAsync()
         {
-            using (var db = new CivlDataContext())
-            {
-                db.Pilots.AddRange(pilots);
+            var pilots = this.datacontext.Pilots.Include(p => p.Nation);
+            return pilots.ToListAsync();
+        }
 
-                await db.SaveChangesAsync();
+        public async Task SavePilotsAsync(IList<Pilot> pilots)
+        {
+            this.datacontext.Pilots.AddRange(pilots);
+
+            await this.datacontext.SaveChangesAsync();
+        }
+
+        public async Task ClearPilotsAsync()
+        {
+            var pilots = await this.datacontext.Pilots.Include(p => p.Nation).ToListAsync();
+            this.datacontext.Pilots.RemoveRange(pilots);
+
+            await this.datacontext.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            if (this.isDisposing)
+            {
+                return;
             }
+
+            this.isDisposing = true;
+            this.datacontext.Dispose();
         }
     }
 }

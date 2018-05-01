@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace PGRating.Crawler.Utilities
@@ -12,7 +15,7 @@ namespace PGRating.Crawler.Utilities
                 return null;
             }
 
-            var regex = new Regex($"^.*{key}=(.*?)&");
+            var regex = new Regex($"^.*{key}=(.*?)[\"&]");
 
             var match = regex.Match(query);
 
@@ -69,9 +72,9 @@ namespace PGRating.Crawler.Utilities
             return null;
         }
 
-        private static string Trim(string value)
+        public static string Trim(string value)
         {
-            return value.Trim().Replace("&nbsp;","");
+            return value?.Trim().Replace("&nbsp;","");
         }
 
         private static string ExtractTag(string value)
@@ -80,6 +83,27 @@ namespace PGRating.Crawler.Utilities
             var tagMatch = tagRegex.Match(value);
 
             return tagMatch.Success ? tagMatch.Groups[0].Value : null;
+        }
+
+        public static IList<string> GetMatches(string value, Regex regex)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return null;
+            }
+
+            value = Trim(value);
+
+            var match = regex.Match(value);
+
+            if (match.Success)
+            {
+                var array = new Group[match.Groups.Count];
+                match.Groups.CopyTo(array, 0);
+                return array.Skip(1).Select(group => group.Value).ToList();
+            }
+
+            return null;
         }
     }
 }

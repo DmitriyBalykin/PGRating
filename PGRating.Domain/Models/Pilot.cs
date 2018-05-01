@@ -9,6 +9,6 @@ namespace PGRating.Domain
 
         public string Name { get; set; }
 
-        public Nation Nation { get; set; }
+        public virtual Nation Nation { get; set; }
     }
 }

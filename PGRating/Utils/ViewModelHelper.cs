@@ -3,16 +3,17 @@ using PGRating.Domain;
 using PGRating.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PGRating.Utils
 {
     public class ViewModelHelper
     {
-        public static TablesCombinationModel GetRatingCombinationTableAsync()
+        public static async Task<TablesCombinationModel> GetRatingCombinationTableAsync()
         {
             var repository = new NationalParticipantRepository();
 
-            var participants = repository.GetNationalParticipants();
+            var participants = await repository.GetNationalParticipantsAsync();
 
 
             CalculateEquivalentRankings(participants);

@@ -1,4 +1,5 @@
-﻿using PGRating.Scrapper.Scrapper;
+﻿using PGRating.Autofac;
+using PGRating.Scrapper.Scrapper;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -17,7 +18,9 @@ namespace PGRating
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            DataScrapper.Start();
+            AutofacBootstrap.Initialize();
+
+            DataScrapper.Start(AutofacBootstrap.Container);
         }
     }
 }

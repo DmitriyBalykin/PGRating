@@ -1,6 +1,4 @@
-﻿using System.Data.Entity;
-using System.Threading.Tasks;
-using System.Net;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using PGRating.Utils;
 namespace PGRating.Controllers
@@ -8,9 +6,9 @@ namespace PGRating.Controllers
     public class RatingTableController : Controller
     {
         // GET: RatingTable
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-                var participantsViewModel = ViewModelHelper.GetRatingCombinationTableAsync();
+                var participantsViewModel = await ViewModelHelper.GetRatingCombinationTableAsync();
 
                 return View(participantsViewModel);
             }

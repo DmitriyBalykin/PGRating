@@ -112,7 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PGRating.Scrapper\DataReadersTest.cs" />
-    <Compile Include="PGRating.Scrapper\RegularTasksTest.cs" />
+    <Compile Include="PGRating.Scrapper\RepositoriesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
